@@ -53,7 +53,7 @@
         </form>
         <button type="submit" class="btn btn-primary">envoyer</button>
     </section>
-    <h3>Sinon connectez vous <a href="../index.php">signup</a></h3>
+    <h3>Sinon connectez vous <a href="../">signup</a></h3>
 </body>
 
 </html>

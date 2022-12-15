@@ -21,17 +21,10 @@ $roleCheck->closeCursor();
 
 function roleControl($x)
 {
-    $rolesArr = array('visiteur' => 1, 'secretaire' => 2, 'admin' => 3, 'sup_admin' => 4);
-    $rolesLen = count($rolesArr);
-    // echo 'len :' . $rolesLen . '<br>';
-    // echo 'role depuis index :' . $x . '<br>';
-    // echo 'role depuis role.php :' . $rolesArr[$x];
-    for ($i = 0; $i < $rolesLen; $i++) {
-        echo 'role :' . $rolesArr[$i] . '<br>';
-        // if ($x == $rolesArr[$i]) {
-        //     echo 'here !' . $rolesArr[$x];
-        //     return $rolesArr[$x];
-        // }
+    $rolesArr = array("visiteur" => 1, "secretaire" => 2, "admin" => 3, "sup_admin" => 4);
+    // $rolesLen = count($rolesArr);
+    foreach ($rolesArr as $key => $value) {
+        if ($x == $key)
+            return $value;
     }
-    // return 0;
 }

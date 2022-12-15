@@ -35,7 +35,11 @@
 
     // array_key_exists(index, $variable)
     // count($variabvle)  //compter !
-    // sort($variable); -->
+    // sort($variable); 
+    // echo gettype($roleId);
+
+-->
+
 
 <!-- <!DOCTYPE html>
     <html lang="en">
