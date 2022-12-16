@@ -1,22 +1,21 @@
 <?php
 require('./src/connection.php');
 require('./control/roles.php');
-// require('header.php');
+require('./control/statut.php');
 ### ajouter des utilisateurs (individus)
 
-// echo date('l');
-// echo date('Y.m.d');
-// isset($_POST['prenom']) && isset($_POST['nom'])
-//     && isset($_POST['email']) && isset($_POST['pass'])
-//     && isset($_POST['confirmpass'])
-//     && isset($_POST['date_naissance']) &&
-if (isset($_POST['role'])) {
-    // $nom = strtoupper($_POST['nom']);
-    // $prenom = $_POST['prenom'];
-    // $email = $_POST['email'];
-    // $pass = $_POST['pass'];
-    // $pass_confirm = $_POST['confirmpass'];
-    // $dateNaissance =  $_POST['date_naissance'];
+if (
+    isset($_POST['prenom']) && isset($_POST['nom'])
+    && isset($_POST['email']) && isset($_POST['pass'])
+    && isset($_POST['confirmpass'])
+    && isset($_POST['date_naissance']) && isset($_POST['role'])
+) {
+    $nom = strtoupper($_POST['nom']);
+    $prenom = $_POST['prenom'];
+    $email = $_POST['email'];
+    $pass = $_POST['pass'];
+    $pass_confirm = $_POST['confirmpass'];
+    $dateNaissance =  $_POST['date_naissance'];
     $roleId = roleControl($_POST['role']);
     // echo $roleId;
 
@@ -44,8 +43,6 @@ if (isset($_POST['role'])) {
     // $signupReq->closeCursor();
     // header('location: ./index.php');
     // exit(); // à ne pas oublier de fermer la session a chaque redirection.
-} else {
-    // echo '<h3 class="text-center"> remplisez tout les information !</h3>'; // error quelque  par car il affich en cas de reussit
 }
 ?>
 
@@ -56,7 +53,9 @@ if (isset($_POST['role'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"> -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" 
+    crossorigin="anonymous"> -->
     <link rel="stylesheet" href="./styles/index.css">
     <title>inscription</title>
 </head>
@@ -64,19 +63,24 @@ if (isset($_POST['role'])) {
 <body>
     <?php include('./src/navbar.php'); ?>
     <main class="main">
-        <?php include('./src/header.php'); ?>
-
+        <?php include('./src/sidebar.php'); ?>
+        <div class="tetedate">
+            <h1>Inscription</h1>
+            <?php
+            setlocale(LC_TIME, 'FR');
+            date_default_timezone_set('Europe/Paris');
+            echo utf8_encode(strftime('%A %d %B %Y'));
+            ?>
+        </div>
         <?php
         if (isset($_GET['error'])) {
             if (isset($_GET['pass']) == 1) {
                 echo '<h4> le mot de passe ne match pas ! </h4>';
-                // sleep(3);
-                // header('location: ../test');
             }
         }
         ?>
-        <h1>Inscription</h1>
-        <form action="" method="POST" enctype="multipart/form-data">
+
+        <form class="signup" action="" method="POST" enctype="multipart/form-data">
             <table>
                 <tr>
                     <td>Nom</td>
@@ -87,16 +91,34 @@ if (isset($_POST['role'])) {
                     <td><input type="text" name="prenom"></td>
                 </tr>
                 <!-- <tr>
-                <td>Email</td>
-                <td><input type="email" name="email" ></td>
-            </tr> -->
+                    <td>Email</td>
+                    <td><input type="email" name="email"></td>
+                </tr>
                 <tr>
                     <td>Mot de passe</td>
                     <td><input type="password" name="pass"></td>
                 </tr>
                 <tr>
-                    <td>Confirmer mot de passe</td>
+                    <td>Confirmez mot de passe</td>
                     <td><input type="password" name="confirmpass"></td>
+                </tr> -->
+                <tr>
+                    <td>Departement</td>
+                    <td><input type="text" name="departement"></td>
+                    <td>date_debut <input type="date" name="dep_date_debut"> </td>
+                    <td>date_fin <input type="date" name="dep_date_fin"> </td>
+                </tr>
+                <tr>
+                    <td>Discipline</td>
+                    <td><input type="text" name="discipline"></td>
+                    <td>date_debut <input type="date" name="dis_date_debut"> </td>
+                    <td>date_fin <input type="date" name="dis_date_fin"> </td>
+                </tr>
+                <tr>
+                    <td>Service</td>
+                    <td><input type="text" name="service"></td>
+                    <td>date_debut <input type="date" name="ser_date_debut"> </td>
+                    <td>date_fin <input type="date" name="ser_date_fin"> </td>
                 </tr>
                 <tr>
                     <td>role</td>

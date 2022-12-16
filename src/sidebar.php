@@ -14,9 +14,9 @@
     .sidebar {
         height: 100%;
         width: 160px;
-        position: absolute;
+        position: fixed;
         z-index: 1;
-        top: 12;
+        top: 85px;
         left: 0;
         background-color: #F3F2F1;
         overflow-x: hidden;

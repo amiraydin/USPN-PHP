@@ -4,6 +4,20 @@
     padding: 0px 10px;
 }
 
+main>form.signup {
+    background-color: #F3F2F1;
+    padding: 20px;
+    width: max-content;
+    height: auto;
+    border-radius: 10px;
+}
+
+div.tetedate {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
 @media screen and (max-height: 450px) {
     .sidebar {
         padding-top: 15px;

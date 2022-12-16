@@ -1,8 +1,15 @@
+<!-- <link rel="stylesheet" href="../styles/navbar.css"> -->
+
 <nav class="topnav">
-    <a class="active" href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-    <input type="text" placeholder="Search..">
+    <a class="active" href="#home">LOGO</a>
+
+    <a href="#contact"></a>
+    <form action="">
+        <!-- <i class="fa-thin fa-magnifying-glass"></i> -->
+        <input type="text" placeholder="Search..">
+    </form>
+
+
 </nav>
 
 <style>
@@ -10,6 +17,7 @@
     .topnav {
         overflow: hidden;
         background-color: #e9e9e9;
+        border-radius: 10px;
     }
 
     /* Style the links inside the navigation bar */
