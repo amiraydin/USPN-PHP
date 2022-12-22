@@ -19,8 +19,7 @@ $roleCheck->closeCursor();
 // }
 // $roleName = $bdd->prepare('SELECT nom_role FROM role');
 
-function roleControl($x)
-{
+function roleControl($x) : int {
     $rolesArr = array("visiteur" => 1, "secretaire" => 2, "admin" => 3, "sup_admin" => 4);
     // $rolesLen = count($rolesArr);
     foreach ($rolesArr as $key => $value) {
