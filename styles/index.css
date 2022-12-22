@@ -12,6 +12,11 @@ main>form.signup {
     border-radius: 10px;
 }
 
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 div.tetedate {
     display: flex;
     align-items: center;

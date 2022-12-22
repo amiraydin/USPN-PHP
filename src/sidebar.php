@@ -3,9 +3,12 @@
 <!-- <link rel="stylesheet" href="../styles/header.css"> -->
 <!-- The sidebar -->
 <div class="sidebar">
-    <a href="../index.php"><i class="fa-solid fa-house-user"></i> Accueil</a>
+    <a href="../test"><i class="fa-solid fa-house-user"></i> Accueil</a>
     <a href="#services"><i class="fa-solid fa-users-viewfinder"></i> Groupe</a>
-    <a href="../test/src/login.php"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</a>
+    <a href="../test/src/login.php">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+        Login
+    </a>
     <a href="#contact"><i class="fa fa-fw fa-envelope"></i> Contact</a>
 </div>
 
