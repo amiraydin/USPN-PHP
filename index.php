@@ -8,23 +8,22 @@ require('./control/statut.php');
 // $pass_confirm = $_POST['confirmpass'];
 $reqStatut = $bdd->prepare('SELECT * FROM statut');
 $reqStatut->execute();
+$resStatut = $reqStatut->fetchAll();
+
 if (
     isset($_POST['prenom']) && isset($_POST['nom']) &&
     isset($_POST['date_naissance']) && isset($_POST['email_pro'])
-    && isset($_POST['role'])
+    && isset($_POST['role']) && isset($_POST['genre'])
+    && isset($_POST['statut'])
 ) {
     //strtoupper($_post['nom']) en get !
     $prenom = $_POST['prenom'];
     $nom = $_POST['nom'];
+    $genre = $_POST['genre'];
     $dateNaissance =  $_POST['date_naissance'];
     $emailPro = $_POST['email_pro'];
     $roleId = roleControl($_POST['role']);
-    // echo $roleId;
-    if (isset($_POST['statut'])) {
-        $status = $_POST['statut'];
-        echo $status;
-    }
-
+    $statutId = $_POST['statut'];
 
     if (isset($_POST['email_per']))
         $emailPer = $_POST['email_per'];
@@ -45,6 +44,8 @@ if (
         $disDateDebut = $_POST['dis_date_debut'];
         $disDateFin = $_POST['dis_date_fin'];
     }
+    if (isset($_POST['specialite']))
+        $specialite = $_POST['specialite'];
     if (
         isset($_POST['service']) &&
         isset($_POST['ser_date_debut']) && isset($_POST['ser_date_fin'])
@@ -53,7 +54,39 @@ if (
         $serDateDebut = $_POST['ser_date_debut'];
         $serDateFin = $_POST['ser_date_fin'];
     }
+    if (isset($_POST['email_pro']))
+        $mailPro = $_POST['email_pro'];
+    if (isset($_POST['email_per']))
+        $mailPer = $_POST['email_per'];
 
+    if (isset($_POST['numero_pro']))
+        $mobilePro = $_POST['numero_pro'];
+    if (empty($_POST['numero_pro']))
+        $mobilePro = NULL;
+    if (isset($_POST['numero_per']))
+        $mobilePer = $_POST['numero_per'];
+    if (empty($_POST['numero_per']))
+        $mobilePer = null;
+
+    // echo "mobile prof : " . gettype($mobilePro)  . " <br>";
+    // echo "mobile perso : " . gettype($mobilePer)  . "<br> ";
+    // echo "email prof : " . gettype($mailPro)  . " <br>";
+    // echo "email perso : " . gettype($mailPer)  . " ";
+
+    if (!empty($mailPro) || !empty($mailPer)) {
+        $reqMail = $bdd->prepare('INSERT INTO email(email_prof, email_perso) VALUES(?, ?)')
+            or die(print_r($bdd->errorInfo()));
+        $reqMail->execute(array($mailPro, $mailPer));
+        $emailId = $bdd->lastInsertId();
+        // echo "email Id" . $emailId;
+    }
+    if (!empty($mobilePro) || !empty($mobilePer)) {
+        $reqMobile = $bdd->prepare('INSERT INTO mobile(mobile_prof, mobile_perso) VALUES(?, ?)')
+            or die(print_r($bdd->errorInfo()));
+        $reqMobile->execute(array($mobilePro, $mobilePer));
+        $mobileId = $bdd->lastInsertId();
+        // echo "moile Id" . $mobileId;
+    }
 
     // if ($pass != $pass_confirm) {
     //     header('location: ../test/?error=1&pass=1');
@@ -66,19 +99,17 @@ if (
     // $roleGet = $bdd->prepare('SELECT Id_role from role where nom_role = ? ');
     // $roleGet->execute(array($role));
 
-    // $reqRole = $bdd->prepare('INSERT INTO role(nom_role) VALUES(?)');
-    // $reqRole->execute(array($role));
-    // $reqRole->closeCursor();
 
-    // echo 'id est' . ' voila !';
-    // echo 'tout va bien !';
-    // $signupReq = $bdd->prepare('INSERT INTO personnel(prenom, nom, email, pwd, date_naissance, Id_role) 
-    // VALUES(?, ?, ?, ?, ?, ?)') or die(print_r($bdd->errorInfo()));
-    // $signupReq->execute(array($prenom, $nom, $email, $pass, $dateNaissance));
-    // // echo 'tu es là !';
+    $signupReq = $bdd->prepare('INSERT INTO personnel(nom, prenom, sexe, date_naissance, Id_role, Id_mobile, Id_email, Id_statut) 
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?)') or die(print_r($bdd->errorInfo()));
+    $signupReq->execute(array($nom, $prenom, $genre, $dateNaissance, $roleId, $mobileId, $emailId, $statutId));
+    // echo 'tu es là !';
     // $signupReq->closeCursor();
     // header('location: ./index.php');
     // exit(); // à ne pas oublier de fermer la session a chaque redirection.
+    $reqMail->closeCursor();
+    $reqMobile->closeCursor();
+    $signupReq->closeCursor();
 }
 ?>
 
@@ -105,7 +136,7 @@ if (
             <?php
             $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::NONE);
             echo $formatter->format(time());
-            echo '<br>';
+            // echo '<br>';
             // $date = DateTimeImmutable::createFromFormat('U', time());
             // echo $date->format('d-m-Y');
             ?>
@@ -117,7 +148,6 @@ if (
                 //     }
                 // }
                 ?> -->
-
         <form class="signup" action="" method="POST" enctype="multipart/form-data">
             <table>
                 <tr>
@@ -127,6 +157,15 @@ if (
                 <tr>
                     <td>Prenom</td>
                     <td><input type="text" name="prenom" placeholder="prenom *"></td>
+                </tr>
+                <tr>
+                    <td>Genre</td>
+                    <td>
+                        <select name="genre">
+                            <option value="M">Monsieur</option>
+                            <option value="F">Madame</option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td>Date de naissance </td>
@@ -148,21 +187,19 @@ if (
                 </tr>
                 <tr>
                     <td>Numero Professionnelle</td>
-                    <td><input type="number" name="numero_pro"></td>
+                    <td><input type="tel" name="numero_pro"></td>
                 </tr>
                 <tr>
                     <td>Numero Personnel</td>
-                    <td><input type="number" name="numero_per" placeholder="optionnelle"></td>
+                    <td><input type="tel" name="numero_per" placeholder="optionnelle"></td>
                 </tr>
                 <tr>
                     <td>Statut</td>
                     <td>
                         <select name='statut'>
-                            <?php
-                            while ($resStatut = $reqStatut->fetch()) {
-                            ?>
-                                <option value='<?php $resStatut['Id_statut']; ?>'>
-                                    <?php echo $resStatut['nom_statut']; ?>
+                            <?php foreach ($resStatut as $value) { ?>
+                                <option value="<?php echo $value['Id_statut']; ?>">
+                                    <?php echo $value['nom_statut']; ?>
                                 </option>
                             <?php } ?>
                         </select>
@@ -218,7 +255,6 @@ if (
 
 <?php
 $reqStatut->closeCursor();
-
 ?>
 
 </html>
