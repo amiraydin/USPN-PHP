@@ -3,9 +3,9 @@
 <!-- <link rel="stylesheet" href="../styles/header.css"> -->
 <!-- The sidebar -->
 <div class="sidebar">
-    <a href="../test"><i class="fa-solid fa-house-user"></i> Accueil</a>
-    <a href="#services"><i class="fa-solid fa-users-viewfinder"></i> Groupe</a>
-    <a href="../test/src/login.php">
+    <a href="../"><i class="fa-solid fa-house-user"></i> Accueil</a>
+    <a href="../test/src/groupe"><i class="fa-solid fa-users-viewfinder"></i> Groupe</a>
+    <a href="../test/src/login">
         <i class="fa-solid fa-arrow-right-to-bracket"></i>
         Login
     </a>

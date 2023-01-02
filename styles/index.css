@@ -32,3 +32,34 @@ div.tetedate {
         font-size: 18px;
     }
 }
+
+/* groupe style */
+
+/* main>div#container>#div1 {
+    width: 100px;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+}
+
+main>div#container>div#left {
+    border: 1px solid #aaaa;
+    width: 150px;
+    float: left
+}
+
+main>div#container>div#right {
+    border: 1px solid #aaaa;
+    width: 150px;
+    float: right;
+}
+
+main>div#container {
+    width: 580px;
+    margin: auto;
+}
+
+p {
+    font-size: 25px;
+    text-align: center;
+} */

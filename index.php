@@ -162,6 +162,7 @@ if (
                     <td>Genre</td>
                     <td>
                         <select name="genre">
+                            <option value="NULL"></option>
                             <option value="M">Monsieur</option>
                             <option value="F">Madame</option>
                         </select>
