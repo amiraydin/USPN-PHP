@@ -1,31 +1,59 @@
 <?php 
 require("./connection.php");
-$reqMember = $bdd->query("SELECT `nom`, `prenom`, `email_prof` FROM `personnel` p, `email` e 
-WHERE p.Id_personnel = e.Id_email");
+$reqMember = $bdd->query("SELECT * FROM `personnel` p
+INNER JOIN `email` e 
+ON p.Id_personnel = e.Id_email");
 $membresList= [];
 while ($row = $reqMember->fetch()) {
     $list = [
+        'IdPerso' => $row['Id_personnel'],
         'nom' => $row['nom'],
         'prenom' => $row['prenom'],
         'email' => $row['email_prof'],
     ];
     $membresList[] = $list;
 }
-
 ?>
 
-<div class="membreside">
-    <?php foreach ($membresList as $membre) { ?>
-        <input class="membre" draggable="true" 
-            value="<?php echo strtoupper($membre['nom']) ."/".$membre['prenom']; 
-                echo '/'. $membre['email']; ?>"
-        />
-    <?php } ?>
-</div>
+<html>
+    <script>
+    function allowDrop(ev) {ev.preventDefault();}
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.value);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+    }
+    </script>
+    <main class="main">
+        <div class="membreside">
+            <p>Membre disponible</p>
+            <?php foreach ($membresList as $val => $membre) { ?>
+                <input ondragstart="drag(event)" class="membre" draggable="true" 
+                    value="<?php echo strtoupper($membre['nom']) ."/ ".$membre['prenom']; 
+                        echo '/ '. $membre['email']; ?>"
+                />
+            <?php } ?>
+        </div>
+        <div id="container">
+            <input class="membre" ></input>
+            <br>
+            <input class="membre" ></input>
+        </div>
+    </main>
+</html>
+
 
 
 
 <style>
+    .main {
+        margin-left: 140px;
+    }
     /* Style the membreside - fixed full height */
     .membreside {
         padding: 5px;
@@ -34,7 +62,7 @@ while ($row = $reqMember->fetch()) {
         position: absolute;
         z-index: 1;
         top: 85px;
-        right: 25;
+        right: 5px;
         background-color: #F3F2F1;
         /* overflow-x: hidden; */
     }
@@ -44,11 +72,24 @@ while ($row = $reqMember->fetch()) {
         width: 340px;
         padding: 5px;
         border: solid 1px ;
+        border-radius: 5px;
         display: block;
     }
 
-    /* Style links on mouse-over */
-    .sidebar a:hover {
-        color: #3c11da;
+    #container .membre {
+        width: 320px;
+        margin-left: 140px;
+    }
+
+    /* drag divs */
+
+    #container{
+        position: absolute;
+        display: grid;
+        width: 400px;
+        margin: auto;
+        justify-items: center;
+        margin-top: 200px;
+        left: 65px;
     }
 </style>
